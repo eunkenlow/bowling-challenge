@@ -5,55 +5,61 @@ describe("Bowling", function() {
     bowling = new Bowling();
   });
 
-  function rollMany (n, pins) {
+  function rollMany (n, roll1, roll2) {
         for (var i = 0; i < n; i++) {
-            bowling.roll(pins);
+            bowling.turn(roll1,roll2);
         }
     }
 
+  function rollPerfect () {
+    for (var i = 0; i < 9; i++) {
+        bowling.turn(10);
+    }
+    bowling.lastTurn(10, 10, 10);
+  }
+
   function rollSpare() {
-      bowling.roll(5);
-      bowling.roll(5);
+      bowling.turn(5,5);
   }
 
   function rollStrike() {
-    bowling.roll(10);
+    bowling.turn(10);
   }
 
     it("handle gutter bowling", function() {
-          rollMany(20, 0);
+          rollMany(10, 0, 0);
           expect(bowling.score()).toEqual(0);
       });
 
       it("should handle all ones", function() {
-          rollMany(20, 1);
-          expect(bowling.score()).toEqual(20);
+          rollMany(10, 1, 0);
+          expect(bowling.score()).toEqual(10);
       });
 
       it("should handle one spare", function() {
           rollSpare();
-          bowling.roll(3);
-          rollMany(17, 0);
+          bowling.turn(3, 0);
+          rollMany(8, 0, 0);
           expect(bowling.score()).toEqual(16);
       });
 
       it("should handle a strike", function() {
           rollStrike();
-          bowling.roll(3);
-          rollMany(17, 0);
+          bowling.turn(3, 0);
+          rollMany(7, 0, 0);
+          bowling.lastTurn(0,0,0);
           expect(bowling.score()).toEqual(16);
       });
 
       it("should handle one strike", function() {
         rollStrike();
-        bowling.roll(3);
-        bowling.roll(4);
-        rollMany(16, 0);
-        expect(bowling.score()).toEqual(24);
+        bowling.turn(3, 3);
+        rollMany(8, 0, 0);
+        expect(bowling.score()).toEqual(22);
     });
 
     it("should handle a perfect bowling", function() {
-        rollMany(12, 10);
+        rollPerfect();
         expect(bowling.score()).toEqual(300);
     });
 

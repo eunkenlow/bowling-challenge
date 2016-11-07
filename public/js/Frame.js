@@ -14,6 +14,10 @@ Frame.prototype.roll = function(pins){
   }
 };
 
+Frame.prototype.lastRoll = function(pins){
+  this.rolls[this.currentRoll++] = pins;
+};
+
 function sum(arr) {
   var sum;
   for (var i = 0; i <= arr.length; i++){
